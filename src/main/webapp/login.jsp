@@ -43,10 +43,6 @@
 				</td>
 			</tr>
 			
-			<%
-			if(ClassDao.isLoginError()) {%>
-				<div><h1>Login errato</h1></div>
-			<%} %>
 		</table>
 	
 			

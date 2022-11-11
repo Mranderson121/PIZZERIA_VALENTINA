@@ -4,6 +4,7 @@ package util;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+
 public class JPAUtil {
     private static final String PERSISTENCE_UNIT_NAME = "JPA_PIZZERIA";
     private static EntityManagerFactory factory;

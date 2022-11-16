@@ -1,7 +1,6 @@
-package servlet;
+package com.pizzeria.restfulcrud.servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,10 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.ClassDao;
-import model.Impasto;
-import model.Ingrediente;
-import model.Utente;
+import com.pizzeria.restfulcrud.dao.ClassDao;
+import com.pizzeria.restfulcrud.model.*;
 
 /**
  * Servlet implementation class LoginServlet

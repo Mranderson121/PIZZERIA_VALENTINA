@@ -1,4 +1,4 @@
-package servlet;
+package com.pizzeria.restfulcrud.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,11 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.ClassDao;
-import model.Impasto;
-import model.Ingrediente;
-import model.Pizza;
-import model.Utente;
+import com.pizzeria.restfulcrud.dao.ClassDao;
+import com.pizzeria.restfulcrud.model.*;
 
 /**
  * Servlet implementation class HomeServlet
@@ -43,24 +40,21 @@ public class HomeServlet extends HttpServlet {
 		
 		Utente utente = ClassDao.getUtenteAttivo();
 		
-		
+		Impasto impasto = new Impasto();
 		if(utente != null) {
 			
-			Impasto impasto =  ClassDao.findImpastoByID(selectedImpasto);
+			if(selectedImpasto != null )
+				 impasto = ClassDao.findImpastoByID(selectedImpasto);
 			if(impasto != null && nomePizza!= null && selectedIngrediente != null) {
 				// pizza da caricare
 				Set<Ingrediente> ingredientiSet = ClassDao.StringArrayToIngredienteSet(selectedIngrediente);
 				ClassDao.insertNewPizza(nomePizza, impasto, utente, ingredientiSet);
 			}
 			
-			
-			List<Pizza> pizzeUtente = null;
-			pizzeUtente = ClassDao.GetAllPizzeUtente(utente);
 			List<Ingrediente> ingredienti = ClassDao.GetAllIngredienti();
 			
 			List<Impasto> impasti = ClassDao.GetAllImpasti();
 			
-			request.setAttribute("pizzeUtente", pizzeUtente);
 			request.setAttribute("listaImpasti", impasti);
 			request.setAttribute("listaIngredienti", ingredienti);
 			request.setAttribute("user", utente);

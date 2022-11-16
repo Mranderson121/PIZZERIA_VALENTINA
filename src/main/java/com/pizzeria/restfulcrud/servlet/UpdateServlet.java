@@ -1,7 +1,6 @@
-package servlet;
+package com.pizzeria.restfulcrud.servlet;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -10,11 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.ClassDao;
-import model.Impasto;
-import model.Ingrediente;
-import model.Pizza;
-import model.Utente;
+import com.pizzeria.restfulcrud.dao.ClassDao;
+import com.pizzeria.restfulcrud.model.*;
 
 /**
  * Servlet implementation class UpdateServlet
@@ -53,17 +49,7 @@ public class UpdateServlet extends HttpServlet {
 				ClassDao.UpdatePizza(idPizza, nomePizza, impasto, utente, ingredientiSet);
 				
 				
-				List<Pizza> pizzeUtente = ClassDao.GetAllPizzeUtente(utente);
-				List<Ingrediente> ingredienti = ClassDao.GetAllIngredienti();
-				List<Impasto> impasti = ClassDao.GetAllImpasti();
-
-				request.setAttribute("pizzeUtente", pizzeUtente);
-				request.setAttribute("listaImpasti", impasti);
-				request.setAttribute("listaIngredienti", ingredienti);
-				request.setAttribute("user", utente);
-			
-			
-			request.getRequestDispatcher("home.jsp").forward(request, response);
+				response.sendRedirect("HomeServlet");	
 			}
 		}else 
 			response.sendRedirect("login.jsp");

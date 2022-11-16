@@ -1,20 +1,19 @@
-package dao;
+package com.pizzeria.restfulcrud.dao;
+
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
-import util.HibernateUtil;
-import model.Impasto;
-import model.Ingrediente;
-import model.Pizza;
-import model.Utente;
+import javax.persistence.TypedQuery;
+
+
+import com.pizzeria.restfulcrud.util.JPAUtil;
+import com.pizzeria.restfulcrud.model.*;
 
 @SuppressWarnings("unchecked")
 public class ClassDao {
@@ -41,77 +40,77 @@ public class ClassDao {
 
 
 	/*  INTERROGAZIONI AL DB */
-	private static SessionFactory sessionFactory = null;
-	private static Session session = null;
-	private static Transaction tx = null;
-	
-	
+	private static EntityManager entityManager = null;
+	private static EntityTransaction entityTransaction = null; 
+    
+    
 	public static void openSession() {
-		
-		sessionFactory = HibernateUtil.getSessionFactory();
-		session = sessionFactory.getCurrentSession();
-		tx = session.beginTransaction();
+		entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
+		entityTransaction = entityManager.getTransaction();
+	    entityTransaction.begin();
 		
 	}
 	
 	public static void closeSession() {
-		tx.commit();
-		//closing hibernate resources
-		sessionFactory.close();	
+		 entityManager.getTransaction().commit();
+	     entityManager.close();
 		
 	}
 	
-	public static void SalvaData() {
-		tx.commit();
-		
+	public static void SaveData() {
+		 entityManager.getTransaction().commit();
 	}
 	
 	
 	
 	public static Utente FindUtenteByUsernamePassword(String username, String password) {
 		openSession();
+		
 		List<Utente> listaEmp = new ArrayList<Utente>();
-		Query query = session.getNamedQuery("SQL_GET_UTENTE_BY_USERNAME_PASSWORD");
-		query.setString("username", username);
-		query.setString("password", password);
-		List<Utente> empList = query.list();
+		TypedQuery<Utente> query = entityManager.createQuery(
+				"select u from Utente u where u.password = :password and u.username = :username", Utente.class);
+		query.setParameter("username", username);
+		query.setParameter("password", password);
+		List<Utente> empList = query.getResultList();
 		
 		for (Utente emp : empList) {
 			listaEmp.add(emp);
 		}
 		
-		//tx.commit();
+		closeSession();
 		return listaEmp.isEmpty() ? null : listaEmp.get(0);
 	}
 
 	public static List<Ingrediente> GetAllIngredienti() {
+		openSession();
 		List<Ingrediente> listaEmp = new ArrayList<Ingrediente>();
-		Query query = session.getNamedQuery("SQL_GET_ALL_INGREDIENTI");
-		List<Ingrediente> empList = query.list();
+		TypedQuery<Ingrediente> query = /*entityManager.createNamedQuery("@SQL_GET_ALL_INGREDIENTE", Ingrediente.class);*/
+				entityManager.createQuery("select u from Ingrediente u order by u.nome", Ingrediente.class);
+		List<Ingrediente> empList = query.getResultList();
 
 		for (Ingrediente emp : empList) {
 			listaEmp.add(emp);
 		}
-		
-		//closeSession();
-		
+		closeSession();
 		return listaEmp;
-		
 	}
 
 	public static List<Impasto> GetAllImpasti() {
+		openSession();
 		List<Impasto> listaEmp = new ArrayList<Impasto>();
-		Query query = session.getNamedQuery("SQL_GET_ALL_IMPASTI");
-		List<Impasto> empList = query.list();
+		TypedQuery<Impasto> query =/* entityManager.createNamedQuery("@SQL_GET_ALL_IMPASTI", Impasto.class);*/
+				entityManager.createQuery("select u from Impasto u order by u.nome", Impasto.class);
+		List<Impasto> empList = query.getResultList();
 
 		for (Impasto emp : empList) {
 			listaEmp.add(emp);
 		}
-		//closeSession();
+		closeSession();
 		return listaEmp;
 	}
 
 	public static void insertNewPizza(String nomePizza, Impasto impasto, Utente utente, Set<Ingrediente> ingredientiSet) {
+		openSession();
 		Pizza pizza = new Pizza(nomePizza, utente, impasto);
 		
 		Set<Pizza> pizzaSetU = new HashSet<Pizza>();
@@ -132,86 +131,78 @@ public class ClassDao {
 		utente.setPizza(pizzaSetU);
 		pizza.setIngrediente(ingredienteSetM2M);
 		
-		session.save(pizza);
+		entityManager.persist(pizza);
+		closeSession();
 	}
 
 
 	public static Impasto findImpastoByID(String id) {
-		//openSession();
-		List<Impasto> listaEmp = new ArrayList<Impasto>();
-	
-		Query query = session.getNamedQuery("SQL_GET_IMPASTO_BY_ID");
-		query.setString("id", id);
-		List<Impasto> empList = query.list();
-		
-		for (Impasto emp : empList) {
-			listaEmp.add(emp);
-		}
-		//closeSession();
-		return listaEmp.isEmpty() ? null : listaEmp.get(0);
-		
+		openSession();
+		Impasto student = entityManager.find(Impasto.class, Long.valueOf(id));
+		closeSession();
+		return student;
 	}
 
 	public static List<Pizza> GetAllPizzeUtente(Utente utente) {
+		openSession();
 		List<Pizza> listaEmp = new ArrayList<Pizza>();
 		
-		Query query = session.getNamedQuery("SQL_GET_ALL_PIZZE_UTENTE");
-		query.setString("id", String.valueOf(utente.getId()));
-		List<Pizza> empList = query.list();
+		TypedQuery<Pizza> query = /*.getNamedQuery("SQL_GET_ALL_PIZZE_UTENTE");*/
+				entityManager.createQuery("select p from Pizza p  where p.id_pizza = :id order by p.nome", Pizza.class);
+		query.setParameter("id", String.valueOf(utente.getId()));
+		List<Pizza> empList = query.getResultList();
 		
 		for (Pizza emp : empList) {
 			listaEmp.add(emp);
 		}
-		//closeSession();
+		closeSession();
 		return listaEmp;
 		
 	}
 
+	
 	public static Set<Ingrediente> StringArrayToIngredienteSet(String[] selectedIngrediente) {
+		openSession();
 		Set<Ingrediente> empSet = new HashSet<Ingrediente>();
-		List<Ingrediente> empList = new ArrayList<Ingrediente>();
 		
 		for(String s : selectedIngrediente) {
-			Query query = session.getNamedQuery("SQL_GET_INGREDIENTE_BY_ID");
-			query.setString("id", s);
-			empList = query.list();
-			if(!empList.isEmpty()) empSet.add(empList.get(0));
-			empList = null;
+			Ingrediente ingrediente = entityManager.find(Ingrediente.class, Long.valueOf(s));
+			empSet.add(ingrediente);
+			ingrediente = null;
 		}
 		
+		closeSession();
 		return empSet;
 	}
 
+	
+	
 	public static void DeletePizzaByID(String idPizza) {
-		Pizza p = (Pizza) session.load(Pizza.class, Long.valueOf(idPizza));
+		openSession();
+		Pizza p = entityManager.find(Pizza.class, Long.valueOf(idPizza));
 		
 		if(p != null) {
 			p.getImpasto().getPizza().remove(p);
 			p.getUtente().getPizza().remove(p);
 			p.setIngrediente(null);
-;			session.delete(p);
+			setUtenteAttivo(p.getUtente());
+			entityManager.remove(p);
 			
-		}tx.commit();
-		openSession();
+		}
+		closeSession();
 	}
 
 	public static Pizza FindPizzaByID(String id) {
-		List<Pizza> listaEmp = new ArrayList<Pizza>();
-		
-		Query query = session.getNamedQuery("SQL_GET_PIZZA_BY_ID");
-		query.setString("id", id);
-		List<Pizza> empList = query.list();
-		
-		for (Pizza emp : empList) {
-			listaEmp.add(emp);
-		}
-		//closeSession();
-		return listaEmp.isEmpty() ? null : listaEmp.get(0);
+		openSession();
+		Pizza p = entityManager.find(Pizza.class, Long.valueOf(id));
+		closeSession();
+		return p;
 	}
 
 	public static void UpdatePizza(String idPizza, String nomePizza, Impasto impasto, Utente utente, Set<Ingrediente> ingredientiSet) {
+		openSession();
+		Pizza p = entityManager.find(Pizza.class, Long.valueOf(idPizza));
 		
-		Pizza p = (Pizza) session.load(Pizza.class, Long.valueOf(idPizza));
 		if(p != null) {
 			
 			p.getUtente().getPizza().remove(p);
@@ -223,19 +214,15 @@ public class ClassDao {
 			p.setUtente(utente);
 			p.setIngrediente(ingredientiSet);
 			
+			/*
 			p.getUtente().getPizza().add(p);
-			p.getImpasto().getPizza().add(p);
+			p.getImpasto().getPizza().add(p);*/
 			
-			session.update(p);
+			setUtenteAttivo(p.getUtente());
 			
-		}tx.commit();
-		openSession();
+		}
 		
-	}
-
-	
-
-	
-	
-	
+		closeSession();
+		
+	}	
 }

@@ -3,8 +3,8 @@
 	"http://www.w3.org/TR/html1/DTD/xhtml1-strict.dtd">
 	
 <%@ page import="java.util.*" %>
-<%@ page import="model.*" %>
-<%@ page import="dao.ClassDao" %>
+<%@ page import="com.pizzeria.restfulcrud.model.*" %>
+<%@ page import="com.pizzeria.restfulcrud.dao.ClassDao" %>
 
 <html xmlns = "http://www.w3.org/1999/xhtml">
 
@@ -43,9 +43,9 @@
 				<div class="col-4" style="font: 15px Arial, Helvetica, sans-serif;"> 
 				<label>
 					<% if(p.getIngrediente().contains(i)){ %>
-						<input type="checkbox" name="selectedIngrediente" value=" <%= i.getId()%>" checked/>
+						<input type="checkbox" name="selectedIngrediente" value="<%=i.getId()%>" checked=""/>
 					<%}else{ %>
-						<input type="checkbox" name="selectedIngrediente" value=" <%= i.getId()%>"/>
+						<input type="checkbox" name="selectedIngrediente" value="<%=i.getId()%>"/>
 					<%} %>
 				 <%= i.getNome()%></label>
 				</div>

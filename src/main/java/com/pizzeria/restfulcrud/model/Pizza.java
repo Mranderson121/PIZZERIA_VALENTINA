@@ -1,4 +1,4 @@
-package model;
+package com.pizzeria.restfulcrud.model;
 
 import java.util.Set;
 
@@ -47,7 +47,6 @@ public class Pizza {
 	
 	public Pizza(String nome, Utente utente, Impasto impasto) {
 		super();
-		this.id = id;
 		this.nome = nome;
 		this.utente = utente;
 		this.impasto = impasto;

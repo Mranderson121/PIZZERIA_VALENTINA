@@ -1,4 +1,4 @@
-package model;
+package com.pizzeria.restfulcrud.model;
 
 import java.util.Objects;
 import java.util.Set;

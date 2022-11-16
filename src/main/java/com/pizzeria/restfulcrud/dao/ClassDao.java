@@ -1,4 +1,4 @@
-package dao;
+package com.pizzeria.restfulcrud.dao;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,11 +15,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import util.JPAUtil;
-import model.Impasto;
-import model.Ingrediente;
-import model.Pizza;
-import model.Utente;
+import com.pizzeria.restfulcrud.model.Impasto;
+import com.pizzeria.restfulcrud.model.Ingrediente;
+import com.pizzeria.restfulcrud.model.Pizza;
+import com.pizzeria.restfulcrud.model.Utente;
+import com.pizzeria.restfulcrud.util.JPAUtil;
 
 @SuppressWarnings("unchecked")
 public class ClassDao {

@@ -1,4 +1,4 @@
-package util;
+package com.pizzeria.restfulcrud.util;
 
 
 import javax.persistence.EntityManagerFactory;

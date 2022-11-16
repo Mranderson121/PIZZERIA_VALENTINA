@@ -1,25 +1,30 @@
-package servlet;
+package com.pizzeria.restfulcrud.servlet;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.ClassDao;
+import com.pizzeria.restfulcrud.dao.ClassDao;
+import com.pizzeria.restfulcrud.model.Impasto;
+import com.pizzeria.restfulcrud.model.Ingrediente;
+import com.pizzeria.restfulcrud.model.Pizza;
 
 /**
  * Servlet implementation class DeleteServlet
  */
-@WebServlet("/Delete")
-public class DeleteServlet extends HttpServlet {
+@WebServlet("/GoToUpdatePage")
+public class GoToUpdatePageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteServlet() {
+    public GoToUpdatePageServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,8 +35,19 @@ public class DeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idPizza = request.getParameter("idPizza");
 		
-		ClassDao.DeletePizzaByID(idPizza);
-		response.sendRedirect("HomeServlet");
+		Pizza pizzaTrovata = ClassDao.FindPizzaByID(idPizza);
+		
+		if(pizzaTrovata != null) {
+			List<Ingrediente> ingredienti = ClassDao.GetAllIngredienti();
+			List<Impasto> impasti = ClassDao.GetAllImpasti();
+			
+			request.setAttribute("listaImpasti", impasti);
+			request.setAttribute("listaIngredienti", ingredienti);
+			request.setAttribute("pizza", pizzaTrovata);
+			request.getRequestDispatcher("update.jsp").forward(request, response);
+		}else {
+			response.sendRedirect("login.jsp");
+		}
 		
 	}
 

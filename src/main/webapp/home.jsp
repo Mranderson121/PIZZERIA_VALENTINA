@@ -3,8 +3,8 @@
 	"http://www.w3.org/TR/html1/DTD/xhtml1-strict.dtd">
 	
 <%@ page import="java.util.*" %>
-<%@ page import="com.pizzeria.restfulcrud.model.*" %>
-<%@ page import="com.pizzeria.restfulcrud.dao.ClassDao" %>
+<%@ page import="model.*" %>
+<%@ page import="dao.ClassDao" %>
 
 <html xmlns = "http://www.w3.org/1999/xhtml">
 

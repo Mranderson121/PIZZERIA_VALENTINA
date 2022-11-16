@@ -1,4 +1,4 @@
-package com.pizzeria.restfulcrud.servlet;
+package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pizzeria.restfulcrud.dao.ClassDao;
-import com.pizzeria.restfulcrud.model.*;
+import dao.ClassDao;
+import model.Impasto;
+import model.Ingrediente;
+import model.Pizza;
+import model.Utente;
 
 /**
  * Servlet implementation class HomeServlet

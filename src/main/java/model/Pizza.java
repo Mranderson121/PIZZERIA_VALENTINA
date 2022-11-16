@@ -1,10 +1,12 @@
-package com.pizzeria.restfulcrud.model;
+package model;
 
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +39,7 @@ public class Pizza {
 	private Impasto impasto;
 
 
-	@ManyToMany(targetEntity = Ingrediente.class, cascade = { CascadeType.ALL })
+	@ManyToMany(targetEntity = Ingrediente.class, cascade = { CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinTable(name = "PIZZA_INGREDIENTE", 
 				joinColumns = { @JoinColumn(name = "id_pizza") }, 
 				inverseJoinColumns = { @JoinColumn(name = "id_ingrediente") })
@@ -47,6 +49,7 @@ public class Pizza {
 	
 	public Pizza(String nome, Utente utente, Impasto impasto) {
 		super();
+		this.id = id;
 		this.nome = nome;
 		this.utente = utente;
 		this.impasto = impasto;
@@ -92,6 +95,26 @@ public class Pizza {
 	public void setImpasto(Impasto impasto) {
 		this.impasto = impasto;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, impasto, ingrediente, nome, utente);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pizza other = (Pizza) obj;
+		return id == other.id && Objects.equals(impasto, other.impasto)
+				&& Objects.equals(ingrediente, other.ingrediente) && Objects.equals(nome, other.nome)
+				&& Objects.equals(utente, other.utente);
+	}
+	
 	
 	
 }

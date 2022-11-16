@@ -1,12 +1,17 @@
-package com.pizzeria.restfulcrud.model;
+package model;
 
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -26,7 +31,7 @@ public class Utente {
 	@Column(name="password")
 	private String password;
 
-	@OneToMany(mappedBy="utente")
+	@OneToMany(mappedBy="utente", fetch = FetchType.EAGER)
 	private Set<Pizza> pizza;
 
 	

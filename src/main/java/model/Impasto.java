@@ -1,18 +1,26 @@
-package com.pizzeria.restfulcrud.model;
+package model;
 
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name="IMPASTO")
+
+@NamedNativeQueries({ @NamedNativeQuery(name = "@SQL_GET_ALL_IMPASTI", 
+query = "select id_impasto, nome from Impasto") })
+
+
 public class Impasto {
 
 	@Id
@@ -23,7 +31,7 @@ public class Impasto {
 	@Column(name="nome")
 	private String nome;
 
-	@OneToMany(mappedBy="impasto")
+	@OneToMany(mappedBy="impasto", fetch = FetchType.EAGER)
 	private Set<Pizza> pizza;
 
 	

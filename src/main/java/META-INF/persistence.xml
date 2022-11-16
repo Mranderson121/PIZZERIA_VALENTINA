@@ -4,10 +4,10 @@
 		<description> Hibernate JPA Configuration Example</description>
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		
-		<class>com.pizzeria.restfulcrud.model.Impasto</class>
-		<class>com.pizzeria.restfulcrud.model.Ingrediente</class>
-		<class>com.pizzeria.restfulcrud.model.Utente</class>
-		<class>com.pizzeria.restfulcrud.model.Pizza</class>
+		<class>model.Impasto</class>
+		<class>model.Ingrediente</class>
+		<class>model.Utente</class>
+		<class>model.Pizza</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver"

@@ -1,5 +1,4 @@
-package com.pizzeria.restfulcrud.dao;
-
+package dao;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,12 +7,19 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 
-import com.pizzeria.restfulcrud.util.JPAUtil;
-import com.pizzeria.restfulcrud.model.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import util.JPAUtil;
+import model.Impasto;
+import model.Ingrediente;
+import model.Pizza;
+import model.Utente;
 
 @SuppressWarnings("unchecked")
 public class ClassDao {
@@ -224,5 +230,11 @@ public class ClassDao {
 		
 		closeSession();
 		
-	}	
+	}
+
+	
+
+	
+	
+	
 }

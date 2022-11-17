@@ -125,15 +125,15 @@ public class ClassDao {
 		
 		if(utente.getPizza() != null)pizzaSetU.addAll(utente.getPizza());
 		pizzaSetU.add(pizza);
-		
+	/*	
 		if(impasto.getPizza() != null)pizzaSetI.addAll(impasto.getPizza());
 		pizzaSetI.add(pizza);
-		
+		*/
 		
 		if(pizza.getIngrediente()!= null)ingredienteSetM2M.addAll(pizza.getIngrediente());
 		ingredienteSetM2M.addAll(ingredientiSet);
 		
-		impasto.setPizza(pizzaSetI);
+		//impasto.setPizza(pizzaSetI);
 		utente.setPizza(pizzaSetU);
 		pizza.setIngrediente(ingredienteSetM2M);
 		
@@ -188,7 +188,7 @@ public class ClassDao {
 		Pizza p = entityManager.find(Pizza.class, Long.valueOf(idPizza));
 		
 		if(p != null) {
-			p.getImpasto().getPizza().remove(p);
+			//p.getImpasto().getPizza().remove(p);
 			p.getUtente().getPizza().remove(p);
 			p.setIngrediente(null);
 			setUtenteAttivo(p.getUtente());
@@ -212,7 +212,7 @@ public class ClassDao {
 		if(p != null) {
 			
 			p.getUtente().getPizza().remove(p);
-			p.getImpasto().getPizza().remove(p);
+			//p.getImpasto().getPizza().remove(p);
 			
 			p.setId(Long.valueOf(idPizza));
 			p.setNome(nomePizza);

@@ -34,7 +34,7 @@ public class Impasto {
 	
 	@Column(name="nome")
 	private String nome;
-
+/*
 	@OneToMany(mappedBy="impasto", fetch = FetchType.EAGER)
 	private Set<Pizza> pizza;
 
@@ -46,7 +46,7 @@ public class Impasto {
 	public void setPizza(Set<Pizza> pizza) {
 		this.pizza = pizza;
 	}
-
+*/
 	public long getId() {
 		return id;
 	}

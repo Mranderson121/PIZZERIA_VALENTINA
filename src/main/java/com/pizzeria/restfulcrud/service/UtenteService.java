@@ -11,20 +11,19 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.pizzeria.restfulcrud.DTOClass.ImpastoDTO;
+import com.pizzeria.restfulcrud.DTOClass.UtenteDTO;
 import com.pizzeria.restfulcrud.dao.ClassDao;
-import com.pizzeria.restfulcrud.model.Impasto;
+import com.pizzeria.restfulcrud.model.Utente;
 
-
-@Path("/impasti")
-public class ImpastoService {
+@Path("/utenti")
+public class UtenteService {
 
 	// URI:
 		// /contextPath/servletPath/impasti
 		@GET
 		@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-		public List<ImpastoDTO> getImpasti_JSON() {
-			List<ImpastoDTO> listOfCountries = ClassDao.GetAllImpastiDTO();
+		public List<UtenteDTO> getIngredienti_JSON() {
+			List<UtenteDTO> listOfCountries = ClassDao.GetAllUtentiDTO();
 			return listOfCountries;
 		}
 		
@@ -33,36 +32,37 @@ public class ImpastoService {
 		@GET
 		@Path("/{id}")
 		@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-		public ImpastoDTO getImpasto(@PathParam("id") String id_impasto) {
-			return ClassDao.findImpastoByID_DTO(id_impasto);
+		public UtenteDTO getImpasto(@PathParam("id") String id) {
+			return ClassDao.findUtenteByID_DTO(id);
 		}
 
-		
 
 		// URI:
 		// /contextPath/servletPath/employees
 		@POST
-		@Path("/{nome}")
+		@Path("/{username}/{password}")
 		@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-		public ImpastoDTO addEmployee(@PathParam("nome") String nome) {
-			return ClassDao.addImpasto_DTO(nome);
+		public Utente addEmployee(@PathParam("username") String username,
+									@PathParam("password") String password) {
+			return ClassDao.addUtente_DTO(username, password);
 		}
 
 		// URI:
 		// /contextPath/servletPath/employees
 		@PUT
-		@Path("/{id}/{nome}")
+		@Path("/{id}/{username}/{password}")
 		@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-		public Impasto updateImpastoName(@PathParam("id") String id,
-											@PathParam("nome") String nome){
-			return ClassDao.updateImpasto_DTO(id,nome);
+		public Utente updateImpastoName(@PathParam("id") String id,
+											@PathParam("username") String username,
+											@PathParam("password") String password){
+			return ClassDao.updateUtente_DTO(id,username, password);
 		}
 
 		@DELETE
 		@Path("/{id}")
 		@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 		public void deleteEmployee(@PathParam("id") String id) {
-			ClassDao.deleteImpasto(id);
+			ClassDao.deleteUtente_DTO(id);
 		}
 
 }

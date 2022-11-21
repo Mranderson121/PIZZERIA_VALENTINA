@@ -17,11 +17,14 @@ import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name="INGREDIENTE")
-
-
+@XmlRootElement(name = "ingrediente")
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedNativeQueries({ @NamedNativeQuery(name = "@SQL_GET_ALL_INGREDIENTE", 
 query = "select id_ingrediente, nome from Ingrediente") })
 
@@ -36,7 +39,15 @@ public class Ingrediente {
 	private String nome;
 
 
+	public Ingrediente () {}
 	
+	public Ingrediente(String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
+	}
+
+
 	public long getId() {
 		return id;
 	}

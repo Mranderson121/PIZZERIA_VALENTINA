@@ -1,5 +1,6 @@
 package com.pizzeria.restfulcrud.service;
 
+
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -11,20 +12,19 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.pizzeria.restfulcrud.DTOClass.ImpastoDTO;
 import com.pizzeria.restfulcrud.dao.ClassDao;
-import com.pizzeria.restfulcrud.model.Impasto;
+import com.pizzeria.restfulcrud.model.Ingrediente;
 
 
-@Path("/impasti")
-public class ImpastoService {
+@Path("/ingredienti")
+public class IngredienteService {
 
 	// URI:
 		// /contextPath/servletPath/impasti
 		@GET
 		@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-		public List<ImpastoDTO> getImpasti_JSON() {
-			List<ImpastoDTO> listOfCountries = ClassDao.GetAllImpastiDTO();
+		public List<Ingrediente> getIngredienti_JSON() {
+			List<Ingrediente> listOfCountries = ClassDao.GetAllIngredientiDTO();
 			return listOfCountries;
 		}
 		
@@ -33,8 +33,8 @@ public class ImpastoService {
 		@GET
 		@Path("/{id}")
 		@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-		public ImpastoDTO getImpasto(@PathParam("id") String id_impasto) {
-			return ClassDao.findImpastoByID_DTO(id_impasto);
+		public Ingrediente getImpasto(@PathParam("id") String id_impasto) {
+			return ClassDao.findIngredienteByID_DTO(id_impasto);
 		}
 
 		
@@ -44,8 +44,8 @@ public class ImpastoService {
 		@POST
 		@Path("/{nome}")
 		@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-		public ImpastoDTO addEmployee(@PathParam("nome") String nome) {
-			return ClassDao.addImpasto_DTO(nome);
+		public Ingrediente addEmployee(@PathParam("nome") String nome) {
+			return ClassDao.addIngrediente_DTO(nome);
 		}
 
 		// URI:
@@ -53,16 +53,16 @@ public class ImpastoService {
 		@PUT
 		@Path("/{id}/{nome}")
 		@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-		public Impasto updateImpastoName(@PathParam("id") String id,
+		public Ingrediente updateImpastoName(@PathParam("id") String id,
 											@PathParam("nome") String nome){
-			return ClassDao.updateImpasto_DTO(id,nome);
+			return ClassDao.updateIngrediente_DTO(id,nome);
 		}
 
 		@DELETE
 		@Path("/{id}")
 		@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 		public void deleteEmployee(@PathParam("id") String id) {
-			ClassDao.deleteImpasto(id);
+			ClassDao.deleteIngrediente_DTO(id);
 		}
 
 }
